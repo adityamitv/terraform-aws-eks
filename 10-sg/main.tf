@@ -9,7 +9,7 @@ module "db" {
 }
 
 module "ingress" {
-  source         = "git::https://github.com/adityamitv/terraform-aws-vpc.git?ref=main"
+  source         = "git::https://github.com/daws-76s/terraform-aws-security-group.git?ref=main"
   project_name = var.project_name
   environment = var.environment
   sg_description = "SG for Ingress controller"
@@ -19,20 +19,17 @@ module "ingress" {
 }
 
 module "cluster" {
-  source         = "git::https://github.com/adityamitv/terraform-aws-vpc.git?ref=main"
+  source         = "git::https://github.com/adityamitv/terraform-aws-security-group.git?ref=main"
   project_name = var.project_name
   environment = var.environment
-  #sg_description = "SG for EKS Control plane"
-  public_subnet_cidrs = "10.1.1.0/24"
-  private_subnet_cidrs = "10.1.2.0/24"
-  database_subnet_cidrs = "10.1.3.0/24"
+  sg_description = "SG for EKS Control plane"
   vpc_id = data.aws_ssm_parameter.vpc_id.value
   common_tags = var.common_tags
-  #sg_name = "eks-control-plane"
+  sg_name = "eks-control-plane"
 }
 
 module "node" {
-  source         = "git::https://github.com/adityamitv/terraform-aws-vpc.git?ref=main"
+  source         = "git::https://github.com/adityamitv/terraform-aws-security-group.git?ref=main"
   project_name = var.project_name
   environment = var.environment
   sg_description = "SG for EKS node"
